@@ -1,6 +1,6 @@
 # semversort
 
-Sort a list of semver tags in the format `vX.Y.Z`. Useful for situations where lexicographic sorting is incorrect due to the absence of leading zeroes.
+Sort a list of semver tags in the format `vX.Y.Z` (the leading `v` is optional). Useful for situations where lexicographic sorting is incorrect due to the absence of leading zeroes.
 
 # prerequisites
 
@@ -24,4 +24,26 @@ Or, in reverse:
 
 ```
 git tag | semversort -r
+```
+
+Ignore lines that don't match the semver format:
+
+```
+git tag | semversort -i
+```
+
+# example
+
+```
+echo '
+v0.0.10
+v0.0.9
+' | semversort
+```
+
+Should output
+
+```
+v0.0.9
+v0.0.10
 ```
