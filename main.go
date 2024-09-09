@@ -59,6 +59,7 @@ func parseVersion(version string) (semver, error) {
 
 func main() {
 	reverse := flag.Bool("r", false, "sort in reverse order")
+	ignoreInvalid := flag.Bool("i", false, "ignore lines that do not parse to a semver")
 	flag.Parse()
 
 	scanner := bufio.NewScanner(os.Stdin)
@@ -67,7 +68,9 @@ func main() {
 	for scanner.Scan() {
 		v, err := parseVersion(scanner.Text())
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error parsing version '%s': %v\n", scanner.Text(), err)
+			if !*ignoreInvalid {
+				fmt.Fprintf(os.Stderr, "Error parsing version '%s': %v\n", scanner.Text(), err)
+			}
 			continue
 		}
 		versions = append(versions, v)
